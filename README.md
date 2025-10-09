@@ -26,3 +26,21 @@ You can check your versions with:
 ```bash
 node -v
 npm -v
+```
+
+📦 Deployment Notes for DevOps
+
+**Runtime**: Node.js v20.19.2, npm v10.8.2
+
+**Framework**: React + Vite + TypeScript
+
+**Build command**: npm ci && npm run build 
+
+
+Output folder: dist/
+
+🌍 Environment variables
+
+Copy .env.example → .env
+
+All variables must start with VITE_ (required by Vite).
