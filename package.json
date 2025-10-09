@@ -1,6 +1,7 @@
 {
   "name": "service-provider",
   "private": true,
+  "description": "Frontend project built with React 19 + Vite 7 + TypeScript. Uses TailwindCSS, React Hook Form, Zod, Radix UI, and Axios.",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -30,6 +31,10 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.14",
     "zod": "^4.1.11"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
