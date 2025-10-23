@@ -48,7 +48,7 @@ function SignupForm() {
             return;
         }
 
-        const id = toast.custom(
+        const toastId = toast.custom(
             () => (
                 <div className='w-screen h-screen flex justify-center items-center bg-white/30 backdrop-blur-sm'>
                     <div className="flex justify-center items-center bg-slate-100 text-black rounded-xl shadow-lg  w-[300px] h-[300px]">
@@ -61,15 +61,13 @@ function SignupForm() {
 
             ),
         );
+
         //go  to home
         setTimeout(() => {
-            toast.dismiss(id)
+            toast.dismiss(toastId)
             navigate(from, { replace: true });
         }, 2000);
-
-
     }
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -150,7 +148,7 @@ function SignupForm() {
                                         field.onBlur();
                                     }} />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage  className="text-sm"/>
                         </FormItem>
                     )}
                 />

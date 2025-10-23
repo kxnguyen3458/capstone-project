@@ -13,7 +13,7 @@ import { loginSchema, type LoginSchema } from '@/schemas/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import login from '@/services/login'
 import useAuth from '@/hooks/useAuth'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 
@@ -46,8 +46,6 @@ function LoginForm() {
             setAccessToken(result.token);
             setCurrentUser(result.currentUser);
 
-
-            
 
             navigate(from, {replace:true});
 
@@ -99,7 +97,7 @@ function LoginForm() {
                                     }} />
                             </FormControl>
                             <div className='flex justify-end'>
-                                <a href="/" className=' text-sm hover:underline hover:decoration-black hover:underline-offset-2'>Forgot your Password?</a>
+                                <Link to="/forgot-password" className=' text-sm hover:underline hover:decoration-black hover:underline-offset-2'>Forgot your Password?</Link>
                             </div>
                             <FormMessage />
                         </FormItem>

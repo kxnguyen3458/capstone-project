@@ -9,9 +9,9 @@ const useRefreshToken = () => {
       const response = await api.get("api/auth/token/refresh",{
         withCredentials:true
       });
-      setAccessToken(response.data.accessToken);
+      setAccessToken(response.data.access);
 
-      return response.data.accessToken
+      return response.data.access
     }
     
 

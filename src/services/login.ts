@@ -2,7 +2,7 @@ import { api } from './../api/axios';
 import axios from "axios";
 import {LOGIN_URL } from "@/constants";
 import type { LoginSchema } from "@/schemas/auth";
-import type { JwtPayload } from "@/types";
+import type { JwtPayload, User } from "@/types";
 import { jwtDecode } from "jwt-decode";
 
 
@@ -11,15 +11,17 @@ const login = async (data: LoginSchema) => {
 
     try {
         const response = await api.post(LOGIN_URL, data, {withCredentials:true});
-        const token =  response.data.access;
+        const token:string =  response.data.access;
 
         if (!token) {
             throw new Error("No token returned from backend");
         }
 
-        const decodeData = jwtDecode<JwtPayload>(token);
-        const currentUser = {
-            user_id: decodeData.user_id
+        const {user_id, email, role} = jwtDecode<JwtPayload>(token);
+        const currentUser: User = {
+            user_id,
+            email,
+            role
         }
 
         return { token, currentUser }

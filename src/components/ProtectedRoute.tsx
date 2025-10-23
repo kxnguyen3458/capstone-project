@@ -1,0 +1,25 @@
+import useAuth from '@/hooks/useAuth'
+import type { Role } from '@/types';
+
+import { Navigate,  Outlet,  useLocation} from 'react-router-dom';
+
+type ProtectedRouteProps =  {
+    allowedRoles: Role
+}
+
+const ProtectedRoute = ({  allowedRoles }: ProtectedRouteProps) => {
+    const { currentUser} = useAuth();
+    const location = useLocation();
+
+
+    return !currentUser ? (
+        <Navigate to="/login" state={{ from: location }} replace />
+    ) : !allowedRoles.includes(currentUser.role) ? (
+        <Navigate to="/unauthorized" state={{ from: location }} replace />
+    ) : (
+        <Outlet/>
+    );
+
+}
+
+export default ProtectedRoute
