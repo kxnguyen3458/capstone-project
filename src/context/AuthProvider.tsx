@@ -19,10 +19,7 @@ export const AuthProvider = ({children}:PropsWithChildren) => {
     const [currentUser, setCurrentUser] = useState<User |null>();
     const [accessToken, setAccessToken] = useState<string | null>();
     
-
-
     const value: AuthContextValue = {currentUser, accessToken,setCurrentUser,setAccessToken};
-
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

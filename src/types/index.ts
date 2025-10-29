@@ -1,5 +1,5 @@
-// export const ROLES = ["customer", "vendor"] as const;
-// export type Role = typeof ROLES[number];
+
+
 export type Role= "customer"| "vendor"
 
 export type User= {
@@ -14,3 +14,5 @@ export type JwtPayload={
     email: string,
     role: Role
 }
+
+

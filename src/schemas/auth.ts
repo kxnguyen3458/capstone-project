@@ -1,3 +1,5 @@
+
+import {  US_STATES } from '@/constants/utilConstant'
 import { z } from 'zod'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -30,6 +32,17 @@ export const resetPassword = z.object({
 
 
 
+const STATES = US_STATES.map(s=>s.value);
+export const addresSchema = z.object({
+    houseNumber: z.string().min(1,"House number is required"),
+    street:z.string().min(1,"Street is required"),
+    city: z.string().min(1,"City is required"),
+    zipcode: z.string().min(1,"Zipcode is required"),
+    state: z.string().refine(val => STATES.includes(val), {
+    message: "Please select a state",
+  }),
+
+})
 
 const namePart = z
   .string()
@@ -39,19 +52,14 @@ const namePart = z
   .regex(/^[\p{L}\p{M}][\p{L}\p{M}'\- ]*$/u, "Invalid characters");
 
 
-export const customerInputProfile = z.object({
+export const inputProfile = z.object({
     firstName:namePart,
     lastName: namePart,
     email: z.string().trim().email("Email not valid"),
     contact_info: z
     .string()
     .regex(/^\+?[0-9]{10}$/, "Invalid phone number"),
-    address: z
-    .string()
-    .regex(
-        /^[0-9]{1,6}\s+[A-Za-z0-9\s.#-]+(?:\s+(APT|UNIT|STE|SUITE|FL|BLDG|RM|#)\s*\w+)?$/,
-        "Invalid address format"
-    ),
+    address: addresSchema
 }).transform((data) => {
     const normalize = (s: string) => s.replace(/\s+/g, " ").trim();
     const first = normalize(data.firstName);
@@ -63,7 +71,8 @@ export const customerInputProfile = z.object({
   });
 
 
-export type CustomerInputProfile = z.input<typeof customerInputProfile>
+export type AdressSchema = z.input<typeof addresSchema>
+export type InputProfile = z.input<typeof inputProfile>
 // export type CustomerOutputProfile = z.output<typeof customerInputProfile>
 
 export type SignupSchema = z.infer<typeof signupSchema>;

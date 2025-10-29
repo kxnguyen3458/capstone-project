@@ -64,7 +64,7 @@ function LoginForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <Input  placeholder="Email" {...field}
+                                <Input autoComplete="off" placeholder="Email" {...field}
                                     onFocus={() => {
                                         form.clearErrors("email");
                                     }}
@@ -85,7 +85,7 @@ function LoginForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <Input placeholder="Password" {...field}
+                                <Input autoComplete="off" placeholder="Password" {...field}
                                     onFocus={() => {
                                         form.clearErrors("email");
                                     }}

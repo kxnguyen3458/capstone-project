@@ -2,23 +2,36 @@ import { Button } from './ui/button'
 import { Link, NavLink } from 'react-router-dom'
 
 const NavBar = () => {
+
+
+
     return (
-        <nav className='grid grid-cols-[85%_15%] items-center p-5'>
+        <nav className='grid grid-cols-[85%_15%] items-center p-5 '>
             <div className='grid grid-cols-[70%_30%]'>
                 <p className="font-bold text-2xl text-purple-600">Home Service Provider</p>
                 <ul className='grid grid-cols-3 text-center items-center '>
-                    <li ><NavLink className={({ isActive }) =>
-                        `font-bold hover:text-purple-700 ${isActive ? "text-purple-700" : "text-black"
-                        }`
-                    } to="/">Home</NavLink></li>
-                    <li ><NavLink className={({ isActive }) =>
-                        `font-bold hover:text-purple-700 ${isActive ? "text-purple-700" : "text-black"
-                        }`
-                    } to="/cart">Cart</NavLink></li>
-                    <li ><NavLink className={({ isActive }) =>
-                        `font-bold hover:text-purple-700 ${isActive ? "text-purple-700" : "text-black"
-                        }`
-                    } to="/account">Account</NavLink></li>
+                    <li >
+                        <NavLink className={({ isActive }) =>
+                            `font-bold hover:text-purple-700 ${isActive ? "text-purple-700" : "text-black"
+                            }`
+                        } to="/">Home</NavLink></li>
+                    <li >
+                        <NavLink className={({ isActive }) =>
+                            `font-bold hover:text-purple-700 ${isActive ? "text-purple-700" : "text-black"
+                            }`
+                        } to="/profile">
+
+                            Profile
+
+
+
+                        </NavLink></li>
+                    <li >
+                        <NavLink className={({ isActive }) =>
+                            `font-bold hover:text-purple-700 ${isActive ? "text-purple-700" : "text-black"
+                            }`
+                        } to="/cart">Cart</NavLink></li>
+
 
                 </ul>
             </div>

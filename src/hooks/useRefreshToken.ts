@@ -6,7 +6,7 @@ const useRefreshToken = () => {
     const {setAccessToken} = useAuth();
 
     const refresh = async()=>{
-      const response = await api.get("api/auth/token/refresh",{
+      const response = await api.get("api/auth/token/refresh/",{
         withCredentials:true
       });
       setAccessToken(response.data.access);

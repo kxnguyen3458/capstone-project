@@ -16,11 +16,15 @@ import RadioUserType from '../RadioUserType'
 import register from '@/services/register'
 import { toast } from 'sonner'
 import { useLocation, useNavigate } from 'react-router-dom'
+import login from "@/services/login"
+import useAuth from "@/hooks/useAuth"
 
 
 function SignupForm() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { setCurrentUser, setAccessToken } = useAuth();
+
 
     const from = location.state?.from?.pathname || "/";
 
@@ -41,6 +45,18 @@ function SignupForm() {
 
         try {
             await register(data);
+            const result = await login({
+                email: data.email,
+                password: data.password
+            });
+
+            if (!result) {
+                console.log("error, no data return");
+                return;
+            }
+            setAccessToken(result.token);
+            setCurrentUser(result.currentUser);
+
 
         } catch (error) {
             const err = error as Error
@@ -54,7 +70,6 @@ function SignupForm() {
                     <div className="flex justify-center items-center bg-slate-100 text-black rounded-xl shadow-lg  w-[300px] h-[300px]">
                         <div className='flex flex-col justify-center items-center gap-4 '>
                             <p className=" font-bold text-xl ">Sign up success!</p>
-                            <h2 className='font-bold text-lg text-purple-700'>Please Log in</h2>
                         </div>
                     </div>
                 </div>
@@ -148,7 +163,7 @@ function SignupForm() {
                                         field.onBlur();
                                     }} />
                             </FormControl>
-                            <FormMessage  className="text-sm"/>
+                            <FormMessage className="text-sm" />
                         </FormItem>
                     )}
                 />

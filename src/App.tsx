@@ -55,14 +55,15 @@
 
 // App.tsx
 import { Suspense, lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
+import CustomerProfilePage from "./pages/CustomerProfilePage";
 
 const Layout = lazy(() => import("./components/Layout"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AuthenticationPage = lazy(() => import("./pages/AuthenticationPage"));
 const Unauthorized = lazy(() => import("./components/Unauthorized"));
-const RequestProfile = lazy(() => import("./components/profile/RequestProfile"));
+// const RequestProfile = lazy(() => import("./components/profile/RequestProfile"));
 const ForgotPassword = lazy(() => import("./components/ForgotPassword"));
 const ResetPassword = lazy(() => import("./components/ResetPassword"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -78,15 +79,24 @@ function App() {
           {/* public */}
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
+            <Route path="/profile" element={<CustomerProfilePage/>} />
+
           </Route>
 
-          <Route path="/login" element={<AuthenticationPage />} />
-          <Route path="/register" element={<AuthenticationPage />} />
+          {/* <Route path="/login" element={<AuthenticationPage />} />
+          <Route path="/register" element={<AuthenticationPage />} /> */}
+          <Route path="/auth" element={<AuthenticationPage />} />
+          <Route path="/login" element={<Navigate to="/auth?tab=login" replace />} />
+          <Route path="/register" element={<Navigate to="/auth?tab=login" replace />} />
+
           <Route path="/unauthorized" element={<Unauthorized />} />
-          <Route path="/updateProfile" element={<RequestProfile />} />
+          {/* <Route path="/updateProfile" element={<RequestProfile />} /> */}
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/not-found" element={<NotFound />} />
+
+
+
 
           {/* protected */}
           <Route element={<ProtectedRoute allowedRoles={"customer"} />}>

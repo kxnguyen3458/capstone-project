@@ -12,7 +12,6 @@ import { toast } from 'sonner';
 import ResetPasswordMessage from './message-ui/ResetPasswordMessage';
 
 
-
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
     const apiPrivate = useAxiosPrivate();
@@ -42,7 +41,6 @@ const ResetPassword = () => {
                 new_password: values.password,
                 new_password2: values.confirmPassword
             })
-
 
             if (response.status === 200) {
                 setIsSuccess(true);

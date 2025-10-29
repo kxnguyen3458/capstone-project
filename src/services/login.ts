@@ -4,13 +4,19 @@ import {LOGIN_URL } from "@/constants";
 import type { LoginSchema } from "@/schemas/auth";
 import type { JwtPayload, User } from "@/types";
 import { jwtDecode } from "jwt-decode";
+// import { mockLoginApi } from '@/test/mockApi';
 
 
 
 const login = async (data: LoginSchema) => {
 
     try {
-        const response = await api.post(LOGIN_URL, data, {withCredentials:true});
+         const response = await api.post(LOGIN_URL, data, {withCredentials:true});
+
+
+        //mock api
+        // const response = await mockLoginApi(data);  
+
         const token:string =  response.data.access;
 
         if (!token) {
