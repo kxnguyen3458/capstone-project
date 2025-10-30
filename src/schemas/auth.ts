@@ -12,8 +12,8 @@ export const loginSchema = z.object({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const signupSchema = z.object({
     email: z.string().trim().email("Email not valid"),
-    password: z.string().min(6, "password must be at least 6 characters"),
-    confirmPassword: z.string().min(6, "password must be at least 6 characters"),
+    password: z.string().min(8, "password must be at least 8 characters"),
+    confirmPassword: z.string().min(8, "password must be at least 8 characters"),
     role: z.string()
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Password does not match",

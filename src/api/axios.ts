@@ -8,6 +8,6 @@ export const api =  axios.create({
 export const apiPrivate =  axios.create({
     baseURL:BASE_URL,
     headers: {"Content-Type":"application/json"},
-    withCredentials:true
+    // withCredentials:true
 })
 

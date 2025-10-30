@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { FRONTEND_RESET_URL, REQUEST_RESET_PASSWORD } from "@/constants";
 import { Link } from "react-router-dom";
-import { Check} from "lucide-react";
+import { Check } from "lucide-react";
 import { toast } from "sonner"
 import ForgotPasswordMessage from "./message-ui/ForgotPasswordMessage";
 
@@ -36,8 +36,11 @@ const ForgotPassword = () => {
             const response = await apiPrivate.post(REQUEST_RESET_PASSWORD, {
                 "email": email,
                 "frontend_reset_url": `${FRONTEND_RESET_URL}`
-            })
-            
+            },
+                // { withCredentials: true }
+            )
+
+
             if (response.status === 200) {
                 setIsSent(true);
                 setSuccessMessage(response.data.detail)
@@ -117,11 +120,11 @@ const ForgotPassword = () => {
 
             </div>)
                 : (
-                    <ForgotPasswordMessage 
-                    successMessage={successMessage}
-                    currentEmail={currentEmail}
-                    resendLink={resendLink}
-                    
+                    <ForgotPasswordMessage
+                        successMessage={successMessage}
+                        currentEmail={currentEmail}
+                        resendLink={resendLink}
+
                     />
                 )
             }

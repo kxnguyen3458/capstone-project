@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from 'react-hook-form'
+import { Eye, EyeOff } from "lucide-react";
 
 import {
     Form,
@@ -16,14 +17,17 @@ import RadioUserType from '../RadioUserType'
 import register from '@/services/register'
 import { toast } from 'sonner'
 import { useLocation, useNavigate } from 'react-router-dom'
-import login from "@/services/login"
+// import login from "@/services/login"
 import useAuth from "@/hooks/useAuth"
+import { useState } from "react"
 
 
 function SignupForm() {
     const navigate = useNavigate();
     const location = useLocation();
-    const { setCurrentUser, setAccessToken } = useAuth();
+    const [showPass, setShowPass] = useState(false);
+    const [showConfirmPass, setShowConfirmPass] = useState(false);
+    // const { setCurrentUser, setAccessToken } = useAuth();
 
 
     const from = location.state?.from?.pathname || "/";
@@ -34,7 +38,7 @@ function SignupForm() {
         mode: "onBlur",
         reValidateMode: "onChange",
         defaultValues: {
-            role: "",
+            role: "customer",
             email: "",
             password: "",
             confirmPassword: ""
@@ -45,17 +49,17 @@ function SignupForm() {
 
         try {
             await register(data);
-            const result = await login({
-                email: data.email,
-                password: data.password
-            });
+            // const result = await login({
+            //     email: data.email,
+            //     password: data.password
+            // });
 
-            if (!result) {
-                console.log("error, no data return");
-                return;
-            }
-            setAccessToken(result.token);
-            setCurrentUser(result.currentUser);
+            // if (!result) {
+            //     console.log("error, no data return");
+            //     return;
+            // }
+            // setAccessToken(result.token);
+            // setCurrentUser(result.currentUser);
 
 
         } catch (error) {
@@ -70,6 +74,7 @@ function SignupForm() {
                     <div className="flex justify-center items-center bg-slate-100 text-black rounded-xl shadow-lg  w-[300px] h-[300px]">
                         <div className='flex flex-col justify-center items-center gap-4 '>
                             <p className=" font-bold text-xl ">Sign up success!</p>
+                            <p className=" font-bold text-xl ">Please log in</p>
                         </div>
                     </div>
                 </div>
@@ -80,12 +85,12 @@ function SignupForm() {
         //go  to home
         setTimeout(() => {
             toast.dismiss(toastId)
-            navigate(from, { replace: true });
+            navigate("/login", { replace: true });
         }, 2000);
     }
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="h-full space-y-3">
                 <FormField
                     control={form.control}
                     name="role"
@@ -105,7 +110,9 @@ function SignupForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <Input placeholder="Email" {...field}
+                                <Input
+                                    autoComplete="off"
+                                    placeholder="Email" {...field}
                                     onFocus={() => {
                                         form.clearErrors("email");
                                     }}
@@ -117,7 +124,9 @@ function SignupForm() {
                                     }}
                                 />
                             </FormControl>
-                            <FormMessage />
+                            <p className="h-4 text-xs text-destructive">
+                                {form.formState.errors.email?.message ?? "\u00A0"}
+                            </p>
                         </FormItem>
                     )}
                 />
@@ -129,18 +138,29 @@ function SignupForm() {
                             <div className='flex justify-between'>
                             </div>
                             <FormControl>
-                                <Input placeholder="Password" {...field}
-                                    onFocus={() => {
-                                        form.clearErrors("password");
-                                    }}
-                                    onChange={(e) => {
-                                        field.onChange(e);
-                                    }}
-                                    onBlur={() => {
-                                        field.onBlur();
-                                    }} />
+                                <div className="relative">
+                                    <Input
+                                        type={showPass ? "text" : "password"}
+                                        autoComplete="off"
+                                        placeholder="Password"
+                                        className="pr-10"
+                                        {...field}
+                                        onFocus={() => form.clearErrors("password")}
+                                        onChange={(e) => field.onChange(e)}
+                                        onBlur={field.onBlur}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPass(!showPass)}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                                    >
+                                        {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </FormControl>
-                            <FormMessage />
+                            <p className="h-4 text-xs text-destructive">
+                                {form.formState.errors.password?.message ?? "\u00A0"}
+                            </p>
                         </FormItem>
                     )}
                 />
@@ -152,22 +172,35 @@ function SignupForm() {
                             <div className='flex justify-between'>
                             </div>
                             <FormControl>
-                                <Input placeholder="Confirm Password" {...field}
-                                    onFocus={() => {
-                                        form.clearErrors("confirmPassword");
-                                    }}
-                                    onChange={(e) => {
-                                        field.onChange(e);
-                                    }}
-                                    onBlur={() => {
-                                        field.onBlur();
-                                    }} />
+                                <div className="relative">
+                                    <Input
+                                        type={showConfirmPass ? "text" : "password"}
+                                        autoComplete="off"
+                                        placeholder="Confirm Password"
+                                        className="pr-10"
+                                        {...field}
+                                        onFocus={() => form.clearErrors("confirmPassword")}
+                                        onChange={field.onChange}
+                                        onBlur={field.onBlur}
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmPass(!showConfirmPass)}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                                    >
+                                        {showConfirmPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </FormControl>
-                            <FormMessage className="text-sm" />
+
+                            <p className="h-4 text-xs text-destructive">
+                                {form.formState.errors.confirmPassword?.message ?? "\u00A0"}
+                            </p>
                         </FormItem>
                     )}
                 />
-                <Button className="mt-5 bg-black text-white hover:bg-black/70 w-full" type="submit">Create Account</Button>
+                <Button className="mt-10 bg-black text-white hover:bg-black/70 w-full" type="submit">Create Account</Button>
             </form>
         </Form>
     )

@@ -24,7 +24,7 @@ const AuthenticationPage = () => {
         <div className='w-screen flex justify-center items-center h-screen'>
             <div className="mx-auto
             border border-white/20 rounded-xl shadow-lg backdrop-blur-md
-            w-[500px] min-h-[500px] max-w-lg flex-col gap-6 bg-slate-200" >
+            w-[500px] min-h-[600px] max-w-lg flex-col gap-6 bg-slate-200" >
                 <Tabs className='p-8' value={currentTab} 
                 onValueChange={(value) => navigate(`/auth?tab=${value}`, {replace:true})}>
                     <TabsList  className='mx-auto mb-5 bg-slate-300'>

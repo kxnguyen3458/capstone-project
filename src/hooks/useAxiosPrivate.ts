@@ -1,5 +1,5 @@
 
-import  { useEffect } from 'react'
+import { useEffect } from 'react'
 import useAuth from './useAuth'
 import { apiPrivate } from '@/api/axios';
 import useRefreshToken from './useRefreshToken';
@@ -7,16 +7,24 @@ import useRefreshToken from './useRefreshToken';
 const useAxiosPrivate = () => {
 
     const { accessToken } = useAuth();
-    const refresh  = useRefreshToken();
+    const refresh = useRefreshToken();
 
     useEffect(() => {
 
         const requestInterceptor = apiPrivate.interceptors.request.use(
             (config) => {
-                if (!config.headers["Authorization"]) {
+
+                // config.withCredentials = true;
+                config.headers = config.headers ?? {};
+
+                if (accessToken) {
                     config.headers["Authorization"] = `Bearer ${accessToken}`;
+                } else {
+                    delete (config.headers as any)["Authorization"];
                 }
                 return config;
+
+
             }, (error) => Promise.reject(error)
         )
 

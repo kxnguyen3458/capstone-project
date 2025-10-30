@@ -15,14 +15,18 @@ import login from '@/services/login'
 import useAuth from '@/hooks/useAuth'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { useState } from "react"
+import { Eye, EyeOff } from "lucide-react"
 
 
 
 function LoginForm() {
     const { setCurrentUser, setAccessToken } = useAuth();
+    const [showPass, setShowPass] = useState(false);
+
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     const from = location.state?.from?.pathname || "/";
 
     const form = useForm<LoginSchema>({
@@ -47,7 +51,7 @@ function LoginForm() {
             setCurrentUser(result.currentUser);
 
 
-            navigate(from, {replace:true});
+            navigate(from, { replace: true });
 
         } catch (error) {
             const err = error as Error
@@ -85,16 +89,25 @@ function LoginForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <Input autoComplete="off" placeholder="Password" {...field}
-                                    onFocus={() => {
-                                        form.clearErrors("email");
-                                    }}
-                                    onChange={(e) => {
-                                        field.onChange(e);
-                                    }}
-                                    onBlur={() => {
-                                        field.onBlur();
-                                    }} />
+                                <div className="relative">
+                                    <Input
+                                        type={showPass ? "text" : "password"}
+                                        autoComplete="off"
+                                        placeholder="Password"
+                                        className="pr-10"
+                                        {...field}
+                                        onFocus={() => form.clearErrors("password")}
+                                        onChange={(e) => field.onChange(e)}
+                                        onBlur={field.onBlur}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPass(!showPass)}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                                    >
+                                        {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </FormControl>
                             <div className='flex justify-end'>
                                 <Link to="/forgot-password" className=' text-sm hover:underline hover:decoration-black hover:underline-offset-2'>Forgot your Password?</Link>

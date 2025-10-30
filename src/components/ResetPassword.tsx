@@ -40,7 +40,9 @@ const ResetPassword = () => {
                 token: searchParams.get("token"),
                 new_password: values.password,
                 new_password2: values.confirmPassword
-            })
+            },
+            // { withCredentials: true }
+        )
 
             if (response.status === 200) {
                 setIsSuccess(true);
