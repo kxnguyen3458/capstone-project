@@ -14,7 +14,7 @@ const useAxiosPrivate = () => {
         const requestInterceptor = apiPrivate.interceptors.request.use(
             (config) => {
 
-                // config.withCredentials = true;
+                config.withCredentials = true;
                 config.headers = config.headers ?? {};
 
                 if (accessToken) {

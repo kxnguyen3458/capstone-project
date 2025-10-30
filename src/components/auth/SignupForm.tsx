@@ -16,21 +16,16 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import RadioUserType from '../RadioUserType'
 import register from '@/services/register'
 import { toast } from 'sonner'
-import { useLocation, useNavigate } from 'react-router-dom'
-// import login from "@/services/login"
-import useAuth from "@/hooks/useAuth"
+import {  useNavigate } from 'react-router-dom'
 import { useState } from "react"
 
 
 function SignupForm() {
     const navigate = useNavigate();
-    const location = useLocation();
     const [showPass, setShowPass] = useState(false);
     const [showConfirmPass, setShowConfirmPass] = useState(false);
-    // const { setCurrentUser, setAccessToken } = useAuth();
 
 
-    const from = location.state?.from?.pathname || "/";
 
 
     const form = useForm<SignupSchema>({
@@ -49,18 +44,7 @@ function SignupForm() {
 
         try {
             await register(data);
-            // const result = await login({
-            //     email: data.email,
-            //     password: data.password
-            // });
-
-            // if (!result) {
-            //     console.log("error, no data return");
-            //     return;
-            // }
-            // setAccessToken(result.token);
-            // setCurrentUser(result.currentUser);
-
+         
 
         } catch (error) {
             const err = error as Error

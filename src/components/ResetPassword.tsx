@@ -4,17 +4,16 @@ import { Input } from "./ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { resetPassword, type ResetPasswordType } from '@/schemas/auth';
 import { RESET_PASSWORD_CONFIRM } from '@/constants';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import ResetPasswordMessage from './message-ui/ResetPasswordMessage';
+import { api } from '@/api/axios';
 
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
-    const apiPrivate = useAxiosPrivate();
     const [isSuccess, setIsSuccess] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -35,13 +34,13 @@ const ResetPassword = () => {
     const handleSubmit = async (values: ResetPasswordType) => {
         try {
             setIsLoading(true);
-            const response = await apiPrivate.post(RESET_PASSWORD_CONFIRM, {
+            const response = await api.post(RESET_PASSWORD_CONFIRM, {
                 uid: searchParams.get('uid'),
                 token: searchParams.get("token"),
                 new_password: values.password,
                 new_password2: values.confirmPassword
             },
-            // { withCredentials: true }
+            { withCredentials: true }
         )
 
             if (response.status === 200) {

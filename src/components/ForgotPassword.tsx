@@ -5,16 +5,15 @@ import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { FRONTEND_RESET_URL, REQUEST_RESET_PASSWORD } from "@/constants";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
 import { toast } from "sonner"
 import ForgotPasswordMessage from "./message-ui/ForgotPasswordMessage";
+import { api } from "@/api/axios";
 
 
 const ForgotPassword = () => {
-    const apiPrivate = useAxiosPrivate();
     const [isSent, setIsSent] = useState(false);
     const [currentEmail, setCurrentEmail] = useState<string | null>(null);
 
@@ -33,11 +32,11 @@ const ForgotPassword = () => {
 
     const sendLink = async (email: string) => {
         try {
-            const response = await apiPrivate.post(REQUEST_RESET_PASSWORD, {
+            const response = await api.post(REQUEST_RESET_PASSWORD, {
                 "email": email,
                 "frontend_reset_url": `${FRONTEND_RESET_URL}`
             },
-                // { withCredentials: true }
+                { withCredentials: true }
             )
 
 

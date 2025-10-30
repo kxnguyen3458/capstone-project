@@ -9,6 +9,8 @@ const register = async (data: SignupSchema) => {
 
     try {
         return await api.post(REGISTER_URL, data, { withCredentials: true });
+        // return await api.post(REGISTER_URL, data);
+
 
     } catch (err) {
 

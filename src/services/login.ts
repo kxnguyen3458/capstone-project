@@ -12,6 +12,7 @@ const login = async (data: LoginSchema) => {
 
     try {
          const response = await api.post(LOGIN_URL, data, {withCredentials:true});
+        //  const response = await api.post(LOGIN_URL, data);
 
 
         //mock api
