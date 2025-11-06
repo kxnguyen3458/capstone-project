@@ -11,15 +11,22 @@ import { ProfileSchema, type ProfileForm } from "@/schemas/auth";
 import { Address } from "@/components/Address";
 import { toast } from "sonner";
 import { getProfileService, updateProfileService } from "@/services/profile";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import useAuth from "@/hooks/useAuth";
 
-// import { toast } from "sonner";
+
 
 
 export default function ProfilePage() {
+  const apiPrivate = useAxiosPrivate();
+  const { currentUser } = useAuth();
+
+  const user_email = currentUser?.email ?? "";
+
   const [isEditing, setIsEditing] = useState(false);
   const [original, setOriginal] = useState<ProfileForm>({
-    full_name: "",
-    email: "",
+    fullname: "",
+    email: user_email,
     contact_info: "",
     formatted_address: "",
     place_id: "",
@@ -35,26 +42,34 @@ export default function ProfilePage() {
   });
 
 
- useEffect(() => {
-  (async () => {
-    try {
-      const data = await getProfileService();
-      if(!data) return;
-      setOriginal(data);
-      form.reset(data);
-    } catch (e: any) {
-      toast.error(e?.message ?? "Failed to load profile");
-    }
-  })();
-}, [form]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getProfileService(apiPrivate);
+        if (!data) return;
+
+        const safe = {
+          ...data,
+          latitude: data.latitude == null ? null : Number(data.latitude),
+          longitude: data.longitude == null ? null : Number(data.longitude)
+        }
+        console.log(safe)
+
+        setOriginal(safe);
+        form.reset(safe);
+      } catch (e: any) {
+
+        toast.error(e?.message ?? "Failed to load profile");
+      }
+    })();
+  }, [form, apiPrivate]);
 
   async function updateProfile(payload: ProfileForm) {
 
     try {
-      // const res = await apiPrivate.put("/profile/me", payload);
-
-      const res = await updateProfileService(payload);
+      const res = await updateProfileService(apiPrivate, payload);
       if (!res) return;
+
       return res;
 
     } catch (error: any) {
@@ -67,7 +82,15 @@ export default function ProfilePage() {
     }
   }
 
+  const onSubmitInvalid = (errors: any) => {
+    console.log("INVALID errors:", errors);
+    toast.error(
+      "Please fix: " + Object.keys(errors).join(", ")
+    );
+  };
+
   const onSubmit = async (values: ProfileForm) => {
+
     const updated = await updateProfile(values);
 
     if (!updated) {
@@ -103,32 +126,35 @@ export default function ProfilePage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">My Profile</h1>
 
-        {!isEditing ? (
-          <Button onClick={() => setIsEditing(true)}>Edit</Button>
-        ) : (
-          <div className="flex gap-2">
-            <Button type="button" variant="outline" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button
-              form="profile-form"
-              type="submit"
-              disabled={!form.formState.isDirty || form.formState.isSubmitting}
-            >
-              Save
-            </Button>
-          </div>
-        )}
       </div>
       <Form {...form}>
         <form
           id="profile-form"
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, onSubmitInvalid)}
           className="grid grid-cols-1 gap-5"
         >
+
+          <div className="flex items-center justify-end gap-2">
+            {!isEditing ? (
+              <Button onClick={() => setIsEditing(true)}>Edit</Button>
+            ) : (
+              <div className="flex gap-2">
+                <Button type="button" variant="outline" onClick={handleCancel}>
+                  Cancel
+                </Button>
+                <Button
+                  form="profile-form"
+                  type="submit"
+                  disabled={!form.formState.isDirty || form.formState.isSubmitting}
+                >
+                  Save
+                </Button>
+              </div>
+            )}
+          </div>
           <FormField
             control={form.control}
-            name="full_name"
+            name="fullname"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Full name</FormLabel>
@@ -163,20 +189,21 @@ export default function ProfilePage() {
             name="contact_info"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contact_info</FormLabel>
+                <FormLabel>Contact_info (e.g. 5551234567)</FormLabel>
                 {isEditing ? (
                   <FormControl>
-                    <Input placeholder="5551234567" {...field} />
+                    <Input  {...field} />
                   </FormControl>
                 ) : (
                   <FormControl>
-                    <Input placeholder="5551234567" {...field} disabled />
+                    <Input  {...field} disabled />
                   </FormControl>
                 )}
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="formatted_address"

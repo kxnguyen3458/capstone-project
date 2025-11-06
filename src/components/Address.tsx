@@ -63,6 +63,17 @@ export function Address({
         }
     },[open, defaultAddress, form])
 
+
+    const roundCoordinate = (coordinate:number, decimalPlaces = 6) => {
+        if(typeof coordinate !== "number" || isNaN(coordinate)){
+            return coordinate;
+        }
+
+        const factor = Math.pow(10,decimalPlaces);
+        return Math.round(coordinate * factor) / factor;
+        
+    }
+
     async function validateAddressViaGeoAPI(data: AddressType): Promise<AddressValidationResult> {
 
         try {
@@ -84,10 +95,13 @@ export function Address({
             const confidence: number = address?.rank?.confidence ?? 0;
 
             if (confidence >= ACCEPT_LEVEL) {
+                const lon = roundCoordinate(address.lon);
+                const lat = roundCoordinate(address.lat);
+
                 const addressDetails = {
                     formatted_address: address.formatted,
-                    longitude: address.lon,
-                    latitude: address.lat,
+                    longitude: lon,
+                    latitude: lat,
                     place_id: address.place_id
                 }
                 return {
@@ -147,7 +161,7 @@ export function Address({
                                         <FormLabel className="text-xs text-gray-400">e.g. 2801 S. University Ave, Little Rock, AR 72204</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="2801 S. University Ave, Little Rock, AR 72204"
+                                                // placeholder="2801 S. University Ave, Little Rock, AR 72204"
                                               
                                                 {...field} />
                                         </FormControl>

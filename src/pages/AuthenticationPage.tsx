@@ -6,12 +6,14 @@ import {
 } from "@/components/ui/tabs"
 import LoginForm from '@/components/auth/LoginForm'
 import SignupForm from '@/components/auth/SignupForm'
-import {  useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const AuthenticationPage = () => {
     const navigate = useNavigate();
     // const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
+
+
 
     if(!searchParams.get("tab")) setSearchParams({tab:"login"}, {replace:true});
     const currentTab = searchParams.get("tab") === "register" ? "register" : "login";

@@ -12,21 +12,14 @@ const login = async (data: LoginSchema) => {
 
     try {
          const response = await api.post(LOGIN_URL, data, {withCredentials:true});
-        //  const response = await api.post(LOGIN_URL, data);
 
-
-        //mock api
-        // const response = await mockLoginApi(data);  
 
         const token:string =  response.data.access;
-
         if (!token) {
             throw new Error("No token returned from backend");
         }
 
-
         const {user_id, email, role} = jwtDecode<JwtPayload>(token);
-
         const currentUser: User = {
             user_id,
             email,
@@ -44,7 +37,6 @@ const login = async (data: LoginSchema) => {
 
             }
         } else {
-            // Error not from  axios
             console.error("Unexpected error:", err);
             throw new Error("Network error. Please try again");
         }

@@ -1,31 +1,14 @@
-import { apiPrivate } from "@/api/axios";
 import { PROFILE_URL } from "@/constants"
 import type { ProfileForm } from "@/schemas/auth";
 import type { AxiosInstance } from "axios";
 import axios from "axios";
 
 
-type ApiAxios = {
-    apiPrivate: AxiosInstance;
-}
-
-export const getProfileService = async () => {
+export const getProfileService = async ( apiPrivate: AxiosInstance) => {
 
     try {
-        // const res = await apiPrivate.get(PROFILE_URL);
+        const res = await apiPrivate.get(PROFILE_URL);
 
-        //mock api
-        const res = {
-            data: {
-                full_name: "Jane Doe",
-                email: "jane@example.com",
-                contact_info: "5551234567",
-                formatted_address: "123 Main St, Dallas, TX 75201",
-                place_id: "mock_place_123",
-                latitude: 32.7767,
-                longitude: -96.7970,
-            }
-        }
 
         if (!res.data) {
             throw new Error("No data returned");
@@ -40,7 +23,8 @@ export const getProfileService = async () => {
                 case 400:
                     throw new Error(message);
                 case 404:
-                    throw new Error(message);
+                    // throw new Error(message);
+                    return null;
                 case 401:
                     throw new Error("Unauthorized - Please log in.");
                 default:
@@ -57,27 +41,16 @@ export type CustomError = {
 }
 
 
-//bỏ apiprivate vào params
-export const updateProfileService = async (payload: ProfileForm) => {
+export const updateProfileService = async ( apiPrivate: AxiosInstance, payload: ProfileForm) => {
 
     try {
-        // const res = await apiPrivate.put(PROFILE_URL);
+        const res = await apiPrivate.put(PROFILE_URL, payload);
 
-        //mock object trả về từ backend
-        await new Promise((resolve) => setTimeout(resolve, 400)); // giả lập API call
-        return {
-            full_name: payload.full_name,
-            email: payload.email,
-            contact_info: payload.contact_info,
-            formatted_address: payload.formatted_address,
-            latitude: payload.latitude,
-            longitude: payload.longitude,
-            place_id: payload.place_id,
-        };
-        // if (!res.data) {
-        //     throw new Error("No data returned");
-        // }
-        // return res.data;
+
+        if (!res.data) {
+            throw new Error("No data returned");
+        }
+        return res.data;
     } catch (error: any) {
 
         if (axios.isAxiosError(error) && error.response) {

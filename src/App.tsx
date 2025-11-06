@@ -91,7 +91,7 @@ function App() {
           <Route path="/register" element={<AuthenticationPage />} /> */}
           <Route path="/auth" element={<AuthenticationPage />} />
           <Route path="/login" element={<Navigate to="/auth?tab=login" replace />} />
-          <Route path="/register" element={<Navigate to="/auth?tab=login" replace />} />
+          <Route path="/register" element={<Navigate to="/auth?tab=register" replace />} />
 
           <Route path="/unauthorized" element={<Unauthorized />} />
           {/* <Route path="/updateProfile" element={<RequestProfile />} /> */}
