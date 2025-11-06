@@ -32,48 +32,43 @@ export const resetPassword = z.object({
 
 
 
-const STATES = US_STATES.map(s=>s.value);
-export const addresSchema = z.object({
-    houseNumber: z.string().min(1,"House number is required"),
-    street:z.string().min(1,"Street is required"),
-    city: z.string().min(1,"City is required"),
-    zipcode: z.string().min(1,"Zipcode is required"),
-    state: z.string().refine(val => STATES.includes(val), {
-    message: "Please select a state",
-  }),
 
+const STATES = US_STATES.map(s=>s.value);
+export const AddressInputSchema = z.object({
+  houseNumber: z.string().min(1, "Required"),
+  street: z.string().min(2, "Required"),
+  city: z.string().min(2, "Required"),
+  state: z.string().refine(val => STATES.includes(val), {
+      message: "Please select a state",
+    }),
+  zipcode: z.string().regex(/^\d{5}(-\d{4})?$/, "Invalid ZIP"),
+});
+export type AddressInput = z.infer<typeof AddressInputSchema>;
+
+export const ProfileSchema = z.object({
+  full_name: z.string().min(2, "Name is too short"),
+  email: z.string().email(),          
+  contact_info: z.string().min(10, "Invalid phone"),
+  formatted_address: z.string().optional(),
+  place_id: z.string().optional(),
+  latitude: z.number().nullable(),
+  longitude: z.number().nullable(),
+});
+export type ProfileForm = z.infer<typeof ProfileSchema>;
+
+
+//********************************************FIX*************************** */
+
+export const addressSchema = z.object({
+  address: z.string().min(1,"Address invalid")
 })
 
-const namePart = z
-  .string()
-  .trim()
-  .min(1, "Required")
-  .max(64, "Too long")
-  .regex(/^[\p{L}\p{M}][\p{L}\p{M}'\- ]*$/u, "Invalid characters");
+export type AddressType = z.infer<typeof addressSchema>;
 
 
-export const inputProfile = z.object({
-    firstName:namePart,
-    lastName: namePart,
-    email: z.string().trim().email("Email not valid"),
-    contact_info: z
-    .string()
-    .regex(/^\+?[0-9]{10}$/, "Invalid phone number"),
-    address: addresSchema
-}).transform((data) => {
-    const normalize = (s: string) => s.replace(/\s+/g, " ").trim();
-    const first = normalize(data.firstName);
-    const last = normalize(data.lastName);
-    return {
-      ...data,
-      fullName: `${first} ${last}`,
-    };
-  });
+//********************************************FIX*************************** */
 
 
-export type AdressSchema = z.input<typeof addresSchema>
-export type InputProfile = z.input<typeof inputProfile>
-// export type CustomerOutputProfile = z.output<typeof customerInputProfile>
 
 export type SignupSchema = z.infer<typeof signupSchema>;
 export type LoginSchema = z.infer<typeof loginSchema>;

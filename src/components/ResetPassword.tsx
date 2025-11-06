@@ -112,7 +112,7 @@ const ResetPassword = () => {
                                     )}
                                 />
                                 <Button
-                                    className="mt-5 w-1/3 ml-auto bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-all"
+                                    className="mt-5  ml-auto bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-all"
                                     type="submit" disabled={isLoading}
                                 >
                                     Reset password

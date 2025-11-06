@@ -27,7 +27,6 @@ function SignupForm() {
 
 
 
-
     const form = useForm<SignupSchema>({
         resolver: zodResolver(signupSchema),
         mode: "onBlur",
@@ -45,10 +44,8 @@ function SignupForm() {
         try {
             await register(data);
          
-
         } catch (error) {
-            const err = error as Error
-            toast.error(err.message, { description: "Please try again" });
+            toast.error((error as Error).message);
             return;
         }
 

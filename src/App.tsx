@@ -57,7 +57,7 @@
 import { Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
-import CustomerProfilePage from "./pages/CustomerProfilePage";
+import ProfilePage from "./pages/ProfilePage";
 
 const Layout = lazy(() => import("./components/Layout"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -79,7 +79,11 @@ function App() {
           {/* public */}
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="/profile" element={<CustomerProfilePage/>} />
+
+            <Route element={<ProtectedRoute allowedRoles={["customer", "vendor"]} />}>
+              <Route path="/profile" element={<ProfilePage />} />
+            </Route>
+
 
           </Route>
 
@@ -97,12 +101,11 @@ function App() {
 
 
 
-
           {/* protected */}
-          <Route element={<ProtectedRoute allowedRoles={"customer"} />}>
+          <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
           </Route>
 
-          <Route element={<ProtectedRoute allowedRoles={"vendor"} />}>
+          <Route element={<ProtectedRoute allowedRoles={["vendor"]} />}>
           </Route>
         </Routes>
       </Suspense>

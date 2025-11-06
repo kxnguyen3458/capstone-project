@@ -4,13 +4,17 @@ import type { Role } from '@/types';
 import { Navigate,  Outlet,  useLocation} from 'react-router-dom';
 
 type ProtectedRouteProps =  {
-    allowedRoles: Role
+    allowedRoles: Role[]
 }
 
 const ProtectedRoute = ({  allowedRoles }: ProtectedRouteProps) => {
     const { currentUser} = useAuth();
     const location = useLocation();
 
+    // console.log(currentUser?.role)
+    // if(currentUser){
+    // console.log(allowedRoles.includes(currentUser?.role));
+    // }
 
     return !currentUser ? (
         <Navigate to="/login" state={{ from: location }} replace />

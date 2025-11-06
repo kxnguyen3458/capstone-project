@@ -24,7 +24,9 @@ const login = async (data: LoginSchema) => {
             throw new Error("No token returned from backend");
         }
 
+
         const {user_id, email, role} = jwtDecode<JwtPayload>(token);
+
         const currentUser: User = {
             user_id,
             email,

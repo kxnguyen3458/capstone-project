@@ -6,3 +6,11 @@ export const LOGOUT = "/api/auth/logout/"
 export const REQUEST_RESET_PASSWORD = "/api/auth/password-reset/"
 export const FRONTEND_RESET_URL = `${FRONTEND_BASE_URL}/reset-password/`;
 export const RESET_PASSWORD_CONFIRM = '/api/auth/password-reset-confirm/';
+export const PROFILE_URL = "/api/profile/"
+export const apiKey = import.meta.env.VITE_GEO_API_KEY
+
+
+
+// *****************3rd party url**********************
+export const GEOAPIFY_URL = "https://api.geoapify.com/v1/geocode/search"
+

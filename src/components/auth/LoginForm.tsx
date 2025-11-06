@@ -21,7 +21,7 @@ import { Eye, EyeOff } from "lucide-react"
 
 
 function LoginForm() {
-    const { setCurrentUser, setAccessToken } = useAuth();
+    const {setCurrentUser, setAccessToken } = useAuth();
     const [showPass, setShowPass] = useState(false);
 
     const navigate = useNavigate();
@@ -34,28 +34,23 @@ function LoginForm() {
         mode: "onBlur",
         reValidateMode: "onChange",
         defaultValues: {
-            email: "",
-            password: ""
+            email: "customer@test.com",
+            password: "testuser123"
         }
     })
 
     const handleSubmit = async (data: any) => {
 
         try {
-            const result = await login(data);
-            if (!result) {
-                console.log("error, no data return");
-                return;
-            }
-            setAccessToken(result.token);
-            setCurrentUser(result.currentUser);
+            const result = await login(data); 
+            setAccessToken(result?.token);
+            setCurrentUser(result?.currentUser);
 
 
             navigate(from, { replace: true });
 
         } catch (error) {
-            const err = error as Error
-            toast.error(err.message, { description: "Please try again" });
+            toast.error((error as Error).message, { description: "Please try again" });
             return;
         }
     }
@@ -79,7 +74,9 @@ function LoginForm() {
                                         field.onBlur();
                                     }} />
                             </FormControl>
-                            <FormMessage />
+                           <p className="h-4 text-xs text-destructive">
+                                {form.formState.errors.email?.message ?? "\u00A0"}
+                            </p>
                         </FormItem>
                     )}
                 />
@@ -112,7 +109,9 @@ function LoginForm() {
                             <div className='flex justify-end'>
                                 <Link to="/forgot-password" className=' text-sm hover:underline hover:decoration-black hover:underline-offset-2'>Forgot your Password?</Link>
                             </div>
-                            <FormMessage />
+                           <p className="h-4 text-xs text-destructive">
+                                {form.formState.errors.password?.message ?? "\u00A0"}
+                            </p>
                         </FormItem>
                     )}
                 />
