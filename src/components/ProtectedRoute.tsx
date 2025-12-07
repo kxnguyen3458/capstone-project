@@ -11,12 +11,6 @@ const ProtectedRoute = ({  allowedRoles }: ProtectedRouteProps) => {
     const { currentUser} = useAuth();
     const location = useLocation();
 
-    
-
-    // console.log(currentUser?.role)
-    // if(currentUser){
-    // console.log(allowedRoles.includes(currentUser?.role));
-    // }
 
     return !currentUser ? (
 
@@ -31,3 +25,5 @@ const ProtectedRoute = ({  allowedRoles }: ProtectedRouteProps) => {
 }
 
 export default ProtectedRoute
+
+

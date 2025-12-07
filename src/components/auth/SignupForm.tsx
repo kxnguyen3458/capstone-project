@@ -63,7 +63,6 @@ function SignupForm() {
             ),
         );
 
-        //go  to home
         setTimeout(() => {
             toast.dismiss(toastId)
             navigate("/login", { replace: true });

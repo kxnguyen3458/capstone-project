@@ -13,7 +13,7 @@ import { loginSchema, type LoginSchema } from '@/schemas/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import login from '@/services/login'
 import useAuth from '@/hooks/useAuth'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link,  useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
@@ -25,18 +25,18 @@ function LoginForm() {
     const [showPass, setShowPass] = useState(false);
 
     const navigate = useNavigate();
-    const location = useLocation();
+    // const location = useLocation();
 
 
-    const from = location.state?.from?.pathname || "/";
+    // const from = location.state?.from?.pathname || "/";
 
     const form = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
         mode: "onBlur",
         reValidateMode: "onChange",
         defaultValues: {
-            email: "customer@test.com",
-            password: "testuser123"
+            email: "",
+            password: ""
         }
     })
 
@@ -48,7 +48,8 @@ function LoginForm() {
             setCurrentUser(result?.currentUser);
 
 
-            navigate(from, { replace: true });
+            // navigate(from, { replace: true });
+            navigate("/");
 
         } catch (error) {
             toast.error((error as Error).message, { description: "Please try again" });

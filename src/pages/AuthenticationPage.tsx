@@ -10,17 +10,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const AuthenticationPage = () => {
     const navigate = useNavigate();
-    // const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
-
-
 
     if(!searchParams.get("tab")) setSearchParams({tab:"login"}, {replace:true});
     const currentTab = searchParams.get("tab") === "register" ? "register" : "login";
-
-    // const pathPart = location.pathname.split('/');
-    // const current = pathPart[pathPart.length - 1 ]  === "register" ? "register" : "login";
-    
 
     return (
         <div className='w-screen flex justify-center items-center h-screen'>

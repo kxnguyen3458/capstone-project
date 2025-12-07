@@ -7,40 +7,40 @@ import { useNavigate } from "react-router-dom";
 
 
 type AuthContextValue = {
-    currentUser?: User | null;
-    accessToken?: string |null;
-    setAccessToken: React.Dispatch<React.SetStateAction<string | null | undefined>>;
-    setCurrentUser: React.Dispatch<React.SetStateAction<User | null | undefined>>; 
-    logout: ()=>void
-    
+  currentUser?: User | null;
+  accessToken?: string | null;
+  setAccessToken: React.Dispatch<React.SetStateAction<string | null | undefined>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null | undefined>>;
+  logout: () => void
+
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 
-export const AuthProvider = ({children}:PropsWithChildren) => {
-  
-    const [currentUser, setCurrentUser] = useState<User |null>();
-    const [accessToken, setAccessToken] = useState<string | null>();
+export const AuthProvider = ({ children }: PropsWithChildren) => {
 
-      const logout = async ()=>{
-        await logoutService();
+  const [currentUser, setCurrentUser] = useState<User | null>();
+  const [accessToken, setAccessToken] = useState<string | null>();
 
-        setAccessToken(null);
-        setCurrentUser(null);
+  const logout = async () => {
+    await logoutService();
 
-         delete (apiPrivate.defaults.headers as any).common?.Authorization;
 
-         navigate("/");
-    }
+    setAccessToken(null);
+    setCurrentUser(null);
 
-    const navigate = useNavigate();
-    
-    const value: AuthContextValue = {currentUser, accessToken,setCurrentUser,setAccessToken, logout};
+    delete (apiPrivate.defaults.headers as any).common?.Authorization;
 
-  
+    navigate("/");
+  }
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  const navigate = useNavigate();
+
+  const value: AuthContextValue = { currentUser, accessToken, setCurrentUser, setAccessToken, logout };
+
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export default AuthContext;

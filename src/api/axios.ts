@@ -1,11 +1,15 @@
 import { BASE_URL } from '@/constants';
-import axios from 'axios';
+import axios , {type AxiosInstance } from 'axios';
 
-export const api =  axios.create({
+
+//public
+export const api:AxiosInstance =  axios.create({
     baseURL:BASE_URL,
 })
 
-export const apiPrivate =  axios.create({
+
+//private
+export const apiPrivate: AxiosInstance =  axios.create({
     baseURL:BASE_URL,
     headers: {"Content-Type":"application/json"},
     withCredentials:true

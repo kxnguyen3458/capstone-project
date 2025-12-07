@@ -158,11 +158,9 @@ export function Address({
                                 control={form.control}
                                 render={({ field }) => (
                                     <FormItem className="col-span-1">
-                                        <FormLabel className="text-xs text-gray-400">e.g. 2801 S. University Ave, Little Rock, AR 72204</FormLabel>
+                                        <FormLabel className="text-xs text-gray-400">e.g. 2801 S. University Ave, Little Rock, Arkansas, 72204</FormLabel>
                                         <FormControl>
                                             <Input
-                                                // placeholder="2801 S. University Ave, Little Rock, AR 72204"
-                                              
                                                 {...field} />
                                         </FormControl>
                                         <FormMessage />
@@ -170,7 +168,7 @@ export function Address({
                                 )}
                             />
                             <div className="ml-auto space-x-1">
-                                <Button type="button" className="border-1 border-gray-300" variant="outline" onClick={() => onOpenChange(false)}>
+                                <Button type="button" className="border border-gray-300" variant="outline" onClick={() => onOpenChange(false)}>
                                     Cancel
                                 </Button>
                                 <Button type="submit" disabled={isSubmitting}>Update</Button>

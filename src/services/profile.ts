@@ -1,12 +1,14 @@
 import { PROFILE_URL } from "@/constants"
 import type { ProfileForm } from "@/schemas/auth";
+import type { UserProfile } from "@/types";
 import type { AxiosInstance } from "axios";
 import axios from "axios";
 
 
-export const getProfileService = async ( apiPrivate: AxiosInstance) => {
+export const getProfileService = async ( apiPrivate: AxiosInstance) :Promise<UserProfile | null> => {
 
     try {
+
         const res = await apiPrivate.get(PROFILE_URL);
 
 
@@ -34,6 +36,44 @@ export const getProfileService = async ( apiPrivate: AxiosInstance) => {
         throw error;
     }
 }
+
+
+
+
+
+
+
+//*******************************MOCK************************************** */
+// export type ProfileResponse = {
+//   name: string;
+//   contact_info: string;
+//   email: string;
+//   address: string;
+// };
+
+
+
+// const mockProfile = {
+//   fullname: "John Doe",
+//   contact_info: "+1 234 567 890",
+//   email: "john.doe@example.com",
+//   formatted_address: "113 Lagrue, Springfield, USA"
+// };
+
+// // Mock function to simulate your getProfileService
+// export const getProfileService = async (): Promise<ProfileResponse> => {
+//   await new Promise((r) => setTimeout(r, 300));
+
+//   return {
+//     name: "John Doe",
+//     contact_info: "+84 912 345 678",
+//     email: "john.doe@example.com",
+//     address: "113 Lagrue Dr, Sherwood, Arkansas, 72120",
+//   };
+// };
+
+
+//*******************************END OF MOCK************************************** */
 
 export type CustomError = {
     message?: string,

@@ -14,9 +14,6 @@ import { getProfileService, updateProfileService } from "@/services/profile";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import useAuth from "@/hooks/useAuth";
 
-
-
-
 export default function ProfilePage() {
   const apiPrivate = useAxiosPrivate();
   const { currentUser } = useAuth();
@@ -48,12 +45,14 @@ export default function ProfilePage() {
         const data = await getProfileService(apiPrivate);
         if (!data) return;
 
+        const {user_email, latitude, longitude, ...rest} = data;
+
         const safe = {
-          ...data,
-          latitude: data.latitude == null ? null : Number(data.latitude),
-          longitude: data.longitude == null ? null : Number(data.longitude)
+          ...rest,
+          email:user_email,
+          latitude:latitude == null ? null : Number(latitude),
+          longitude:longitude == null ? null : Number(longitude)
         }
-        console.log(safe)
 
         setOriginal(safe);
         form.reset(safe);

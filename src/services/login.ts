@@ -4,7 +4,6 @@ import {LOGIN_URL } from "@/constants";
 import type { LoginSchema } from "@/schemas/auth";
 import type { JwtPayload, User } from "@/types";
 import { jwtDecode } from "jwt-decode";
-// import { mockLoginApi } from '@/test/mockApi';
 
 
 
